@@ -3,45 +3,20 @@
 
 #include "webserver.h"
 
-using namespace std;
+class Config {
+   public:
+    Config() = delete;
+    Config(const Config &c) = delete;
+    Config(int argc, char *argv[]);
 
-class Config
-{
-public:
-    Config();
-    ~Config(){};
-
-    void parse_arg(int argc, char*argv[]);
-
-    //端口号
-    int PORT;
-
-    //日志写入方式
-    int LOGWrite;
-
-    //触发组合模式
-    int TRIGMode;
-
-    //listenfd触发模式
-    int LISTENTrigmode;
-
-    //connfd触发模式
-    int CONNTrigmode;
-
-    //优雅关闭链接
-    int OPT_LINGER;
-
-    //数据库连接池数量
-    int sql_num;
-
-    //线程池内的线程数量
-    int thread_num;
-
-    //是否关闭日志
-    int close_log;
-
-    //并发模型选择
-    int actor_model;
+    int PORT;          // 端口号
+    bool LOGWrite;     // 日志写入方式
+    int TRIGMode;      // 触发组合模式
+    bool OPT_LINGER;   // 优雅关闭连接
+    int sql_num;       // 数据库连接池数量
+    int thread_num;    // 线程池内的线程数量
+    bool close_log;    // 是否关闭日志
+    bool actor_model;  // 并发模型选择
 };
 
 #endif
