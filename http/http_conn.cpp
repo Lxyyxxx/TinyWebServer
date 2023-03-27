@@ -105,10 +105,10 @@ void http_conn::close_conn(bool real_close) {
 }
 
 // 初始化连接,外部调用初始化套接字地址
-void http_conn::init(const int &sockfd, const sockaddr_in &addr, char *root,
-                     const int &TRIGMode, const bool &close_log,
-                     const std::string &user, const std::string &passwd,
-                     const std::string &db_name) {
+void http_conn::init(const int &sockfd, const sockaddr_in &addr,
+                     const std::string &root, const int &TRIGMode,
+                     const bool &close_log, const std::string &user,
+                     const std::string &passwd, const std::string &db_name) {
     m_sockfd = sockfd;
     m_address = addr;
 
@@ -120,9 +120,9 @@ void http_conn::init(const int &sockfd, const sockaddr_in &addr, char *root,
     m_TRIGMode = TRIGMode;
     m_close_log = close_log;
 
-    strcpy(sql_user, user.c_str());
-    strcpy(sql_passwd, passwd.c_str());
-    strcpy(sql_name, db_name.c_str());
+    sql_user = user;
+    sql_passwd = passwd;
+    sql_name = db_name;
 
     init();
 }
@@ -335,8 +335,8 @@ http_conn::HTTP_CODE http_conn::process_read() {
 }
 
 http_conn::HTTP_CODE http_conn::do_request() {
-    strcpy(m_real_file, doc_root);
-    int len = strlen(doc_root);
+    strcpy(m_real_file, doc_root.c_str());
+    int len = doc_root.size();
     // printf("m_url:%s\n", m_url);
     const char *p = strrchr(m_url, '/');
 
@@ -377,7 +377,8 @@ http_conn::HTTP_CODE http_conn::do_request() {
             if (users.find(name) == users.end()) {
                 m_lock.lock();
                 int res = mysql_query(mysql, sql_insert);
-                users.insert(std::pair<std::string, std::string>(name, password));
+                users.insert(
+                    std::pair<std::string, std::string>(name, password));
                 m_lock.unlock();
 
                 if (!res)

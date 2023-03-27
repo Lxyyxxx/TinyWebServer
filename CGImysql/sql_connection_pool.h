@@ -22,6 +22,15 @@ class connection_pool {
 
     // 单例模式
     static connection_pool *GetInstance();
+    // static connection_pool& Instance() {
+    //     static connection_pool my_instance;
+    //     return my_instance;
+    // }
+
+    // connection_pool(connection_pool const&) = delete;
+    // connection_pool(connection_pool&&) = delete;
+    // connection_pool& operator=(connection_pool const&) = delete;
+    // connection_pool& operator=(connection_pool&&) = delete; 
 
     void init(const std::string &url, const std::string &user,
               const std::string &password, const std::string &db_name,
@@ -34,10 +43,11 @@ class connection_pool {
     std::string m_db_name;   // 使用数据库名
     bool m_close_log;        // 日志开关
 
-   private:
+   protected:
     connection_pool();
     ~connection_pool();
 
+  private:
     int m_max_conn;   // 最大连接数
     int m_cur_conn;   // 当前已使用的连接数
     int m_free_conn;  // 当前空闲的连接数

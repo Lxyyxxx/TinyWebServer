@@ -12,6 +12,8 @@
 #include <cerrno>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
+#include <filesystem>
 
 #include "./http/http_conn.h"
 #include "./threadpool/threadpool.h"
@@ -23,6 +25,7 @@ const int TIMESLOT = 5;              // 最小超时单位
 class WebServer {
    public:
     WebServer() = delete;  // 取消默认构造函数
+    WebServer(const WebServer &ws) = delete;  // 取消复制构造函数
     ~WebServer();
 
     WebServer(const int &port,              // 端口
@@ -37,9 +40,7 @@ class WebServer {
               const bool &close_log,        // 是否关闭日志
               const bool &actor_model       // 并发模型选择
     );
-
-    WebServer(const WebServer &ws) = delete;  // 取消复制构造函数
-
+    
     void threadPool();
     void sqlPool();
     void logWrite();
@@ -57,7 +58,7 @@ class WebServer {
    private:
     // 基础
     int m_port;
-    char *m_root;
+    std::string m_root;
     bool m_log_write;
     bool m_close_log;
     bool m_actor_model;

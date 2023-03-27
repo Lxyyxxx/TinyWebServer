@@ -52,5 +52,6 @@ sudo ./server
 ```
 
 # Update
-1. `Config`，`WebServer`使用构造函数进行初始化
-
+1. `Config`，`WebServer` 使用构造函数进行初始化
+2. 删去 `using namespace std;`
+3. MySQL 数据库增加主键

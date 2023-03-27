@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <map>
+#include <string>
 
 #include "../CGImysql/sql_connection_pool.h"
 #include "../lock/locker.h"
@@ -65,10 +66,10 @@ class http_conn {
     ~http_conn() {}
 
    public:
-    void init(const int &sockfd, const sockaddr_in &addr, char *root,
-              const int &TRIGMode, const bool &close_log,
-              const std::string &user, const std::string &passwd,
-              const std::string &db_name);
+    void init(const int &sockfd, const sockaddr_in &addr,
+              const std::string &root, const int &TRIGMode,
+              const bool &close_log, const std::string &user,
+              const std::string &passwd, const std::string &db_name);
     void close_conn(bool real_close = true);
     void process();
     bool read_once();
@@ -129,15 +130,15 @@ class http_conn {
     char *m_string;  // 存储请求头数据
     int bytes_to_send;
     int bytes_have_send;
-    char *doc_root;
+    std::string doc_root;
 
     std::map<std::string, std::string> m_users;
     int m_TRIGMode;
     int m_close_log;
 
-    char sql_user[100];
-    char sql_passwd[100];
-    char sql_name[100];
+    std::string sql_user;
+    std::string sql_passwd;
+    std::string sql_name;
 };
 
 #endif
